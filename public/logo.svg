@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#06b6d4"/>
-      <stop offset="1" stop-color="#0284c7"/>
-    </linearGradient>
-  </defs>
-  <rect width="120" height="120" rx="24" fill="url(#g)"/>
-  <g transform="translate(20,20) scale(0.8)" fill="#fff">
-    <path d="M35 10c8 0 14 6 14 14 0 12-10 18-14 30-4-12-14-18-14-30 0-8 6-14 14-14z" />
-    <circle cx="35" cy="38" r="4" />
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="32" cy="32" r="30" fill="#325AA6"/>
+    <circle cx="54" cy="10" r="10" fill="#5EA7FF"/>
+    <polyline stroke="#FFF" stroke-linecap="square" stroke-width="2" points="58.659 15.373 53.852 5.054 49.255 8.737" transform="matrix(1 0 0 -1 0 20.427)"/>
+    <path fill="#B4DFFB" d="M25.8928571,14 C21.6323748,14 18.8214286,18.8928881 18.8214286,24.9285714 C18.8214286,30.9642548 21.6323748,50 25.8928571,50 C28.3782709,50 28.6605891,34.1920244 32,34.177711 C35.9822681,34.1920244 35.6217291,50 38.1071429,50 C42.3676252,50 45.1785714,30.9642548 45.1785714,24.9285714 C45.1785714,18.8928881 42.3676252,14 38.1071429,14 C36.0714286,14 34.0357143,15.9285714 32,15.9285714 C29.9642857,15.9285714 27.9285714,14 25.8928571,14 Z"/>
+    <path stroke="#FFF" stroke-linecap="round" stroke-width="2" d="M27,17 C24.2385763,17 22,19.2385763 22,22"/>
   </g>
 </svg>
