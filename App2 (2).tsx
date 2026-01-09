@@ -301,7 +301,7 @@ const App: React.FC = () => {
         <div className="flex-1 flex flex-col w-full print:block">
             <header className="bg-white shadow-sm p-4 z-10 sticky top-0 md:static print:hidden"> {/* Hide header in print */}
                 <div className="flex items-center justify-between">
-                    <img src="/vite.svg" alt={t('appName')} className="h-8 w-8 me-3 md:hidden"/>
+                    <img src="/logo.svg" alt={t('appName')} className="h-8 w-8 me-3 md:hidden"/>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-700">{viewTitles[currentView]}</h1>
                     <NotificationBell clinicData={clinicData} setCurrentView={setCurrentView} />
                 </div>

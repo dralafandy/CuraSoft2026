@@ -434,7 +434,7 @@ const App: React.FC = () => {
                         <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-md md:hidden me-2 hover:bg-slate-100">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
                         </button>
-                        <img src="/vite.svg" alt={t('appName')} className="h-8 w-8 me-3 md:hidden"/>
+                        <img src="/logo.svg" alt={t('appName')} className="h-8 w-8 me-3 md:hidden"/>
                     </div>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-700">{viewTitles[currentView]}</h1>
                     <NotificationBell clinicData={clinicData} setCurrentView={setCurrentView} />
