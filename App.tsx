@@ -340,6 +340,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ clinicData, setCurr
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('dashboard');
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
   const clinicData = useClinicData();
   const { t, direction, locale } = useI18n();
   const { isAdmin, hasPermission, loading: authLoading } = useAuth();
@@ -425,11 +426,16 @@ const App: React.FC = () => {
   return (
     <div className="bg-neutral-light text-slate-800 min-h-screen">
       <div className="md:flex">
-        <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+        <Sidebar currentView={currentView} setCurrentView={setCurrentView} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="flex-1 flex flex-col w-full print:block">
             <header className="bg-white shadow-sm p-4 z-10 sticky top-0 md:static print:hidden"> {/* Hide header in print */}
                 <div className="flex items-center justify-between">
-                    <img src="/vite.svg" alt={t('appName')} className="h-8 w-8 me-3 md:hidden"/>
+                    <div className="flex items-center">
+                        <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-md md:hidden me-2 hover:bg-slate-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </button>
+                        <img src="/vite.svg" alt={t('appName')} className="h-8 w-8 me-3 md:hidden"/>
+                    </div>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-700">{viewTitles[currentView]}</h1>
                     <NotificationBell clinicData={clinicData} setCurrentView={setCurrentView} />
                 </div>

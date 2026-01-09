@@ -30,9 +30,11 @@ const LogoutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-6 
 interface SidebarProps {
   currentView: View;
   setCurrentView: (view: View) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
+const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, isOpen, onClose }) => {
   const { t } = useI18n();
   const { user, logout, isAdmin } = useAuth();
 
@@ -98,8 +100,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
     },
   ];
 
-  return (
-    <nav className="hidden md:flex bg-primary-dark text-white w-20 lg:w-64 flex-col transition-all duration-300 print:hidden">
+  const renderContent = () => (
+    <>
       <div className="flex items-center justify-center lg:justify-start p-4 h-16 border-b border-primary-dark/50">
         <ToothIcon />
         <h1 className="hidden lg:block ms-3 text-xl font-bold">{t('appName')}</h1>
@@ -115,7 +117,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
                 {group.items.map((item) => (
                   <li key={item.id} className="px-4">
                     <button
-                      onClick={() => setCurrentView(item.id as View)}
+                      onClick={() => { setCurrentView(item.id as View); onClose && onClose(); }}
                       className={`flex items-center w-full p-3 my-1 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 ${
                         currentView === item.id
                           ? 'bg-white/20 text-white shadow-sm'
@@ -140,7 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
       </ul>
       <div className="p-4 border-t border-primary-dark/50 space-y-4">
         <button
-          onClick={logout}
+          onClick={() => { logout(); onClose && onClose(); }}
           className="flex items-center w-full p-3 rounded-lg text-sky-100 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
           aria-label={t('auth.logout.button')}
         >
@@ -150,13 +152,42 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView }) => {
         <div className="flex items-center">
             <img src="https://picsum.photos/40/40" alt={t('sidebar.adminProfile')} className="rounded-full" />
             <div className="hidden lg:block ms-3">
-                {/* Fix: Replace user.username with user.email, as the Supabase User object does not have a 'username' property. */}
                 <p className="font-semibold text-sm">{userProfile?.username || user?.email || t('sidebar.drAdmin')}</p>
                 <p className="text-xs text-sky-200">{userProfile?.role || (isAdmin ? 'Admin' : 'User')}</p>
             </div>
         </div>
       </div>
-    </nav>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile drawer */}
+      <div className={`fixed inset-0 z-40 md:hidden ${isOpen ? 'block' : 'hidden'}`} aria-hidden={!isOpen}>
+        <div className="fixed inset-0 bg-black/40" onClick={onClose}></div>
+        <nav className={`relative bg-primary-dark text-white w-64 h-full transition-transform transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <ToothIcon />
+                <h1 className="text-xl font-bold">{t('appName')}</h1>
+              </div>
+              <button onClick={onClose} className="p-2 rounded-md hover:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="mt-4 h-[calc(100vh-96px)] overflow-auto">
+              {renderContent()}
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      {/* Desktop sidebar */}
+      <nav className="hidden md:flex bg-primary-dark text-white w-20 lg:w-64 flex-col transition-all duration-300 print:hidden">
+        {renderContent()}
+      </nav>
+    </>
   );
 };
 
