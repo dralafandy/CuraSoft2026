@@ -26,6 +26,10 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@supabase/supabase-js": "^2.90.1",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.23",
     "tailwindcss": "^4.1.18",
     "vite": "^7.3.0"
   }
