@@ -118,6 +118,16 @@ export const useClinicData = (): ClinicData => {
     const [attachments, setAttachments] = useState<PatientAttachment[]>([]);
 
     // Clinic settings state
+    // Helper: convert camelCase keys to snake_case for Supabase
+    const toSnake = (s: string) => s.replace(/([A-Z])/g, '_$1').toLowerCase();
+    const convertKeysToSnake = (obj: any) => {
+        if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return obj;
+        const res: any = {};
+        Object.entries(obj).forEach(([k, v]) => {
+            res[toSnake(k)] = v;
+        });
+        return res;
+    };
     const [clinicInfo, setClinicInfo] = useState<ClinicInfo>({
         name: '',
         address: '',
@@ -478,9 +488,10 @@ export const useClinicData = (): ClinicData => {
     // Generic helper for updating data
     const updateData = async <T extends { id: string }>(table: string, data: T, setState: React.Dispatch<React.SetStateAction<T[]>>): Promise<void> => {
         if (!supabase) return;
-        const { id, ...updateData } = data;
-        console.log(`Updating data in table: ${table}`, { id, updateData });
-        const { error } = await supabase.from(table).update(updateData).eq('id', id);
+        const { id, ...updateData } = data as any;
+        const supabaseData = convertKeysToSnake(updateData);
+        console.log(`Updating data in table: ${table}`, { id, supabaseData });
+        const { error } = await supabase.from(table).update(supabaseData).eq('id', id);
         if (error) {
             console.error(`Error updating data in ${table}:`, error);
             addNotification(error.message, NotificationType.ERROR);
@@ -1726,7 +1737,8 @@ export const useClinicData = (): ClinicData => {
                         id: invoice.id.startsWith('sample-') ? undefined : invoice.id, // Let Supabase generate UUID for sample data
                         user_id: user.id
                     };
-                    await supabase.from('supplier_invoices').insert(invoiceData);
+                    const invoiceDataSnake = convertKeysToSnake(invoiceData);
+                    await supabase.from('supplier_invoices').insert(invoiceDataSnake);
                 }
             }
 
