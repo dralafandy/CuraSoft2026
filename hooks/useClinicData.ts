@@ -1318,7 +1318,21 @@ export const useClinicData = (): ClinicData => {
             addNotification(error.message, NotificationType.ERROR);
         } else if (newData) {
             console.log('Successfully added supplier invoice:', newData);
-            setSupplierInvoices((prev: SupplierInvoice[]) => [...prev, ...newData as SupplierInvoice[]]);
+            // Convert snake_case response from Supabase back to camelCase for frontend
+            const formattedInvoices = newData.map((inv: any) => ({
+                id: inv.id,
+                supplierId: inv.supplier_id,
+                invoiceNumber: inv.invoice_number,
+                invoiceDate: inv.invoice_date,
+                dueDate: inv.due_date,
+                amount: inv.amount,
+                status: inv.status,
+                items: inv.items || [],
+                invoiceImageUrl: inv.invoice_image_url,
+                images: inv.images,
+                payments: inv.payments || []
+            }));
+            setSupplierInvoices((prev: SupplierInvoice[]) => [...prev, ...formattedInvoices as SupplierInvoice[]]);
             addNotification('Supplier invoice added successfully', NotificationType.SUCCESS);
         }
     };
